@@ -1,0 +1,75 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <title>Fruitz In</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <div class="top-header">
+      <div class="logo">
+        <a href="#home">
+          <h1>
+            <img src="{% static 'images/fruit-logo.jpg' %}" alt="Fruit logo" />
+            Fruitz In
+          </h1>
+        </a>
+      </div>
+
+      <div class="top-header-links">
+        <a href="#home">Home</a> | <a href="#about">About</a> |
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+
+    <hr />
+    <br />
+    <br />
+    <div class="hero-paragraph">
+      <img
+        src="{% static 'images/paragraph-image.jpg' %}"
+        alt="Paragraph image"
+      />
+      <p>
+        Fruits are important sources of vitamins and carbohydrates like fiber
+        and sugar. They are low in calories and naturally sweet. Fruits and
+        their juices are good sources of water, too. Different fruits contain
+        different vitamins, so it is important to eat a variety of fruits.
+        Mangoes, papayas, melons and citrus fruits, like oranges and grapefruit,
+        are high in vitamin C. Cantaloupe, apricots, peaches, and nectarines are
+        sources of vitamin A. Whole fruits like apples and grapes contain more
+        fiber than fruit juices and sauces, like applesauce and grape juice.
+        Dried fruits like figs, prunes and raisins are good sources of fiber,
+        too. Canned fruits packed in syrup have a lot of added sugar. They are
+        higher in calories than fresh fruits. When you shop for canned fruits,
+        look for fruit that is packed in juice instead of syrup.
+      </p>
+    </div>
+    <br />
+    <hr />
+    <div class="search-bar">
+      <h1>Our Products</h1>
+      <div class="search-bar-box">
+        <input type="text" placeholder="Search Products...." />
+        <button type="button">Search</button>
+      </div>
+    </div>
+
+    <div class="products-container">
+      {% for product in products %}
+      <div class="product-card">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+        <h3>{{ product.name }}</h3>
+        <h4>Rs. {{ product.price }} / {{ product.measurement }}</h4>
+        <form method="post" action="{% url 'add_to_cart' %}">
+          {% csrf_token %}
+          <input type="hidden" name="product_id" value="{{ product.id }}" />
+          <button type="submit">Add to Cart</button>
+        </form>
+      </div>
+      {% empty %}
+      <p>No products availabe in this season ....</p>
+      {% endfor %}
+    </div>
+  </body>
+</html>
